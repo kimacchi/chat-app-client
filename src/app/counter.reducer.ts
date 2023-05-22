@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { login } from './counter.actions';
+import { login, logout } from './counter.actions';
 
 export const initialState = "sdafdf";
 
@@ -8,5 +8,6 @@ export const counterReducer = createReducer(
   on(login, (state, action)=>{
     console.log(action);
     return action.value;
-  })
+  }),
+  on(logout, (state) => "")
 );

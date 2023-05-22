@@ -1,12 +1,96 @@
-<div class="w-full h-screen bg-slate-900 flex p-4 gap-4">
-  <div class="w-96 h-full bg-violet-950 rounded-md flex flex-col">
-    <div>
-      <!-- new chat -->
-      <button>New Chat</button>
+<div
+  class="w-full text-white h-screen bg-gradient-to-br from-gradient_one to-gradient_two flex p-8 gap-8"
+>
+  <div
+    class="w-96 h-full bg-zinc-500 bg-opacity-50 backdrop:blur-3xl rounded-3xl flex flex-col p-4"
+  >
+    <div class="w-full flex justify-between items-center px-4 pb-4 border-b-2">
+      <p>{{ username$ | async }}</p>
+      <div class="flex gap-6">
+        <button class="hover:scale-105">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            fill="currentColor"
+            class="bi bi-chat-right-dots"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1H2zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12z"
+            />
+            <path
+              d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
+            />
+          </svg>
+        </button>
+        <button class="hover:scale-105" (click)="onLogout()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="currentColor"
+            class="bi bi-box-arrow-right"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"
+            />
+            <path
+              fill-rule="evenodd"
+              d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
+            />
+          </svg>
+        </button>
+      </div>
     </div>
-    <div>
-      <!-- chat list -->
+    <div class="py-4">
+      <p>aslkdfjşasldkfjaşsldkfj</p>
     </div>
   </div>
-  <div class="flex-grow h-full bg-violet-950 rounded-md"></div>
+  <div
+    class="flex flex-col gap-4 justify-between p-4 flex-grow h-full bg-zinc-500 bg-opacity-50 backdrop:blur-3xl rounded-3xl"
+  >
+    <div class="flex-grow " >
+      <!-- messages -->
+      <div class="flex flex-col gap-4 " *ngFor="let msg of messageList">
+        <div
+          [ngClass]="msg.self ? myMsg : otherMsg"
+        >
+          <p>
+            {{msg.message}}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="flex">
+      <input
+        type="text"
+        id="website-admin"
+        class="rounded-none focus:outline-none rounded-l-lg border text-white bg-transparent block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
+        placeholder="Type your message here.."
+        [value]="message"
+        (input)="onTextChange($event)"
+        (keydown.enter)="sendMessage()"
+      />
+      <button
+        class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-l-0 border-gray-300 rounded-r-lg"
+        (click)="sendMessage()"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-send-fill"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
 </div>
