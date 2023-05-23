@@ -16,6 +16,7 @@ export class ChatComponent implements OnInit {
   socket: any;
   lastUsername: string = "";
   userList: Array<string> = [];
+  roomName: string = "";
 
   myMsg = "break-words max-w-4xl h-min p-4 bg-slate-700 bg-opacity-40 rounded-3xl rounded-br-none self-end"
   otherMsg = "break-words max-w-4xl h-min p-4 bg-slate-700 bg-opacity-40 rounded-3xl rounded-bl-none"
@@ -25,7 +26,7 @@ export class ChatComponent implements OnInit {
       this.lastUsername = e;
     }));
     this.message = "";
-    this.socket= io.io(`localhost:4545?username=${this.lastUsername}`)
+    this.socket= io.io(`10.100.200.107:4545?username=${this.lastUsername}`)
 
     this.socket.emit("set-username", this.lastUsername)
 
@@ -50,6 +51,15 @@ export class ChatComponent implements OnInit {
 
   onTextChange(event: Event){
     this.message = (<HTMLInputElement>event.target).value;
+  }
+
+  onTextChangeRoom(event: Event){
+    this.roomName = (<HTMLInputElement>event.target).value;
+  }
+
+  joinRoom(){
+    const generatedRoomName = [this.roomName, this.lastUsername].sort().join("");
+    this.socket.emit("join_chat", generatedRoomName);
   }
 
   sendMessage(){

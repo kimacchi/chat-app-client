@@ -46,7 +46,21 @@
       </div>
     </div>
     <div class="py-4">
-      <p>aslkdfjşasldkfjaşsldkfj</p>
+      <input
+        type="text"
+        id="website-admin"
+        class="rounded-none focus:outline-none rounded-l-lg border text-white bg-transparent block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
+        placeholder="enter the room.."
+        [value]="roomName"
+        (input)="onTextChangeRoom($event)"
+        (keydown.enter)="joinRoom()"
+      />
+      <button
+        class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-l-0 border-gray-300 rounded-r-lg"
+        (click)="joinRoom()"
+      >
+        join room
+      </button>
     </div>
   </div>
   <div
