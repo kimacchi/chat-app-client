@@ -45,8 +45,8 @@
         </button>
       </div>
     </div>
-    <div class="py-4">
-      <input
+    <div class="py-4 h-full w-full flex flex-col overflow-y-auto">
+      <!-- <input
         type="text"
         id="website-admin"
         class="rounded-none focus:outline-none rounded-l-lg border text-white bg-transparent block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
@@ -60,15 +60,23 @@
         (click)="joinRoom()"
       >
         join room
-      </button>
+      </button> -->
+      <div *ngFor="let user of users">
+        <button
+          class="w-full h-16 pl-4 flex items-center border-b-[1px] border-b-slate-300 hover:bg-zinc-600 hover:bg-opacity-10 hover:cursor-pointer"
+          (click)="selectUser(user)"
+        >
+          <p>{{user.username}}</p>
+        </button>
+      </div>
     </div>
   </div>
   <div
     class="flex flex-col gap-4 justify-between p-4 flex-grow h-full bg-zinc-500 bg-opacity-50 backdrop:blur-3xl rounded-3xl"
   >
-    <div class="flex-grow " >
+    <div class="flex-grow flex flex-col gap-4 overflow-auto scrollbar-change" >
       <!-- messages -->
-      <div class="flex flex-col gap-4 " *ngFor="let msg of messageList">
+      <div *ngFor="let msg of messageList" class="flex w-full flex-col">
         <div
           [ngClass]="msg.self ? myMsg : otherMsg"
         >

@@ -4,7 +4,8 @@
     type="text"
     id="first_name"
     (input)="onInput($event)"
+    (keydown.enter)="login()"
     class="mb-8 bg-gray-50 border border-gray-300 text-gray-900 text-2xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-96 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your username" required>
-  <button (click)="increment()" type="button" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-2xl px-10 py-5 text-center mr-2 mb-2">Login</button>
-  <div>Current Count: {{ username$ | async }}</div>
+  <button (click)="login()" type="button" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-2xl px-10 py-5 text-center mr-2 mb-2">Login</button>
+
 </div>

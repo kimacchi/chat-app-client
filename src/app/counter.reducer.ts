@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { login, logout } from './counter.actions';
 
-export const initialState = "sdafdf";
+export const initialState = "ahmet";
 
 export const counterReducer = createReducer(
   initialState,

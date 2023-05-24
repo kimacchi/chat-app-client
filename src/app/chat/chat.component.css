@@ -1,3 +1,15 @@
 .custom-border-radius{
   border-radius: 78% 22% 100% 0% / 10% 93% 7% 90%  ;
 }
+
+
+
+.scrollbar-change::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-change {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
