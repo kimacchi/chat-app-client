@@ -64,6 +64,7 @@
       <div *ngFor="let user of users">
         <button
           class="w-full h-16 pl-4 flex items-center border-b-[1px] border-b-slate-300 hover:bg-zinc-600 hover:bg-opacity-10 hover:cursor-pointer"
+          [ngClass]="{'bg-zinc-700': user.username === selectedUser?.username, 'bg-opacity-10': user.username === selectedUser?.username}"
           (click)="selectUser(user)"
         >
           <p>{{user.username}}</p>
