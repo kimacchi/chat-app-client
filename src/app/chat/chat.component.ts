@@ -51,7 +51,8 @@ type User = {
 export class ChatComponent implements OnInit {
   username$: Observable<string>;
   message: string;
-  messageList: { message: string; username: string; self: boolean; room: string; }[] = [];
+  messageList: { message: string; username: string; self: boolean;  to: string | undefined }[] = [];
+  chatMessages: {message: string; username: string; self: boolean;  to: string | undefined}[] = []; // filter the messageList to the username
   socket: any;
   lastUsername: string = '';
   userList: Array<string> = [];
@@ -63,7 +64,7 @@ export class ChatComponent implements OnInit {
   myMsg =
     'break-words max-w-4xl h-min p-4 bg-slate-700 bg-opacity-40 rounded-3xl rounded-br-none self-end';
   otherMsg =
-    'break-words max-w-4xl h-min p-4 bg-slate-700 bg-opacity-40 rounded-3xl rounded-bl-none';
+    'break-words w-min max-w-4xl h-min p-4 bg-slate-700 bg-opacity-40 rounded-3xl rounded-bl-none';
 
   constructor(
     private store: Store<{ username: string }>,
@@ -82,6 +83,18 @@ export class ChatComponent implements OnInit {
         axios.get('http://localhost:4545/user/?username=' + e).then((ele) => {
           this.thisUser = ele.data;
           console.log('you are this', ele.data);
+          axios.get("http://localhost:4545/messages/?id="+ ele.data.id).then((element) => {
+            console.log(element.data);
+            const temp = element.data.items.map((message: any) => {
+              return {
+                message: message.text,
+                username: message.username,
+                self: ele.data.id === message.from,
+                to: message.to
+              }
+            })
+            this.messageList = temp;
+          })
         });
       })
     );
@@ -99,8 +112,15 @@ export class ChatComponent implements OnInit {
       this.messageList.push({
         ...data,
         self: false,
-        username: data.from
+        username: data.from,
+        to: this.selectedUser?.username
       });
+      this.chatMessages.push({
+        ...data,
+        self: false,
+        username: data.from,
+        to: this.selectedUser?.username
+      })
     })
     // this.socket.on(
     //   'message-broadcast',
@@ -115,7 +135,9 @@ export class ChatComponent implements OnInit {
     //   }
     // );
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+  }
 
   onLogout() {
     this.store.dispatch(logout());
@@ -135,6 +157,11 @@ export class ChatComponent implements OnInit {
       .join('');
     this.socket.emit('join_chat', {room: generatedRoomName, from: this.thisUser?.id, to: user.id});
     this.roomName = generatedRoomName;
+    console.log(this.chatMessages, "chat messages");
+    console.log(this.messageList, "all messages");
+    this.chatMessages = this.messageList.filter((e) => {
+      return user.id === e.to
+    })
     return generatedRoomName;
   }
 
@@ -143,15 +170,23 @@ export class ChatComponent implements OnInit {
     // this.socket.emit('message', this.message);
     this.socket.emit("send_data", {
       message: this.message,
-      from: this.lastUsername,
-      room: this.roomName
+      from: this.thisUser?.id,
+      room: this.roomName,
+      to: this.selectedUser?.id
     })
     this.messageList.push({
       message: this.message,
       username: this.lastUsername,
       self: true,
-      room: this.roomName
+      to: this.selectedUser?.username
     });
+    console.log(this.message)
+    this.chatMessages.push({
+      message: this.message,
+      username: this.lastUsername,
+      self: true,
+      to: this.selectedUser?.username
+    })
     this.message = '';
   }
 
